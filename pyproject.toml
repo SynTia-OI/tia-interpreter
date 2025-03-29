@@ -1,0 +1,63 @@
+[project]
+name = "tia-interpreter"
+version = "0.1.0"
+description = "A modern command-line assistant powered by AI"
+readme = "README.md"
+authors = [
+    {name = "Ms Tia Day", email = "hyperion@cutnbreak.com.au"}
+]
+license = {text = "MIT"}
+repository = "https://github.com/SynTia-OI/tia-interpreter"
+requires-python = ">=3.13,<4.0"
+
+dependencies = [
+    "litellm>=1.52.3,<2.0.0",
+    "anthropic>=0.39.0,<0.40.0",
+    "pygments>=2.18.0,<3.0.0",
+    "pyautogui>=0.9.54,<0.10.0",
+    "fastapi>=0.115.4,<0.116.0",
+    "prompt-toolkit>=3.0.48,<4.0.0",
+    "pyte>=0.8.2,<0.9.0",
+    "screeninfo>=0.8.1,<0.9.0",
+    "readchar>=4.2.1,<5.0.0",
+    "pillow>=10.3.0",
+    "uvicorn>=0.32.0,<0.33.0",
+    "pynput>=1.7.7,<2.0.0",
+    "httpx>=0.28.1",
+    "colorama>=0.4.6,<0.5.0",
+    "google-genai>=1.8.0,<2.0.0"
+]
+
+[project.scripts]
+tia = "interpreter.cli:main"
+tia-interpreter = "interpreter.cli:main"
+tia-shell = "scripts.shell:main"
+tia-uninstall-shell = "scripts.uninstall_shell:main"
+tia-wtf = "scripts.wtf:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "interpreter/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["README.md"]
+
+[tool.hatch.build.targets.wheel]
+include = ["README.md"]
+
+[tool.hatch.envs.default]
+dependencies = [
+    "."
+]
+features = ["dev"]
+
+[tool.black]
+target-version = ['py313']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
