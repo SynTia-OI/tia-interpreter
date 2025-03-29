@@ -2,7 +2,7 @@
 
 Hello Tia,
 
-This is your personal AI Interpreter project, featuring CoPA (Co-Personal Assistant), designed to function as a Natural Language Interface for your Windows system.
+This is your personal AI Interpreter featuring CoPA (Co-Personal Assistant), designed to function as a Natural Language Interface.
 
 **Project Repository:** [https://github.com/SynTia-OI/tia-interpreter](https://github.com/SynTia-OI/tia-interpreter)
 **Contact:** hyperion@cutnbreak.com.au
