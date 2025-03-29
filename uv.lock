@@ -1052,7 +1052,7 @@ wheels = [
 
 [[package]]
 name = "tia-interpreter"
-version = "0.1.1"
+version = "0.1.2"
 source = { editable = "." }
 dependencies = [
     { name = "anthropic" },
@@ -1068,6 +1068,7 @@ dependencies = [
     { name = "pygments" },
     { name = "pynput" },
     { name = "pyte" },
+    { name = "python-dotenv" },
     { name = "readchar" },
     { name = "requests" },
     { name = "screeninfo" },
@@ -1089,6 +1090,7 @@ requires-dist = [
     { name = "pygments", specifier = ">=2.18.0,<3.0.0" },
     { name = "pynput", specifier = ">=1.7.7,<2.0.0" },
     { name = "pyte", specifier = ">=0.8.2,<0.9.0" },
+    { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
     { name = "readchar", specifier = ">=4.2.1,<5.0.0" },
     { name = "requests", specifier = ">=2.31.0,<3.28.0" },
     { name = "screeninfo", specifier = ">=0.8.1,<0.9.0" },

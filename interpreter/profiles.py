@@ -83,19 +83,20 @@ You are empowered to take ownership and initiative to fulfill user goals within 
             self.max_tokens = 64000
             self.api_base = "https://api.anthropic.com"
             # Load API key from environment variable ONLY
-            self.api_key = os.environ.get("ANTHROPIC_API_KEY")
+            self.api_key = os.environ.get("ANTHROPIC_API_KEY") # Correctly load from env
             if not self.api_key:
                 print("Warning: ANTHROPIC_API_KEY environment variable not set.")
                 # Or raise an error: raise ValueError("ANTHROPIC_API_KEY environment variable not set.")
             self.api_version = "2023-06-01"
             # Add organization ID attribute
+            # Load organization ID from environment variable or use default
             self.organization_id = os.environ.get("ANTHROPIC_ORG_ID", "e3896178-abc2-4a8d-8fb3-5271ff15361e")
 
             self.headers = {
                 "anthropic-version": "2023-06-01",
                 # "anthropic-beta": "tools-2024-04-04", # Removed potentially conflicting beta header
                 # Load API key from environment variable ONLY for header
-                "x-api-key": os.environ.get("ANTHROPIC_API_KEY"),
+                "x-api-key": os.environ.get("ANTHROPIC_API_KEY"), # Correctly load from env
                 # Add organization ID to headers if Anthropic requires it
                 "anthropic-organization": self.organization_id,
                 "content-type": "application/json",

@@ -47,8 +47,8 @@ Here's the refined process to set up the development environment and run the int
 
 4.  **Run the Interpreter:**
     *   Ensure the virtual environment is active.
-    *   Run the command: `tia-interpreter`
-    *   *(Alternatively, you can run `python -m interpreter.cli`)*
+    *   **Primary Method:** Run `python -m interpreter.cli`
+    *   *(Note: Due to persistent issues getting the standard `tia-interpreter` entry point script to work correctly after installation, using `python -m interpreter.cli` is the recommended and most reliable way to run the application.)*
 
 ## Development Notes & Troubleshooting
 
@@ -61,10 +61,10 @@ Here's the refined process to set up the development environment and run the int
 *   **Updating Dependencies:** If you change dependencies in `pyproject.toml`:
     1.  Update the lock file: `uv lock --upgrade`
     2.  Synchronize the environment: `uv sync --extra dev` (or just `uv sync` if not using dev dependencies).
-*   **Installation Issues (`ModuleNotFoundError`):** If the `tia-interpreter` command fails (especially after changes), ensure the environment is correctly synchronized using `uv sync --extra dev`. This command aligns the installed packages precisely with the lock file and often fixes entry point issues.
+*   **Installation Issues (`ModuleNotFoundError`):** If the `tia-interpreter` command fails with `ModuleNotFoundError`, it indicates the package files were not correctly installed into the `site-packages` directory, despite installation commands reporting success. Use `python -m interpreter.cli` instead, which runs the code directly from your source directory. The `uv sync --extra dev` command sometimes helps resolve entry point issues, but `python -m ...` is the most reliable fallback if the entry point script fails.
 *   **Cache Cleaning (If necessary):** Python creates `__pycache__` directories containing compiled bytecode (`.pyc` files). While usually handled automatically, if you suspect stale bytecode is causing issues, you can manually remove these directories.
     *   In PowerShell: `Get-ChildItem -Recurse -Include __pycache__ | Remove-Item -Recurse -Force`
     *   After cleaning cache, it's often best to reinstall: `uv pip uninstall tia-interpreter` followed by `uv pip install .[dev]` and `uv sync --extra dev`.
-*   **Metadata Sanitization:** When sharing code or building distributions, be mindful of sensitive information (like API keys hardcoded in `profiles.py` during testing). Ensure these are removed or managed via environment variables in production/shared versions. Version control systems like Git also store history; be careful what you commit.
+*   **Metadata Sanitization:** When sharing code or building distributions, be mindful of sensitive information (like API keys loaded from `.env` or previously hardcoded). Ensure `.env` files are listed in your `.gitignore` and are not committed. Version control systems like Git also store history; be careful what you commit.
 
 Let me know if you need further assistance, Tia!
