@@ -1,0 +1,1 @@
+Invoke-RestMethod https://raw.githubusercontent.com/OpenInterpreter/open-interpreter/refs/heads/development/installers/new-installer.sh | bash

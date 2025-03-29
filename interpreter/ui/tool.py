@@ -275,7 +275,7 @@ class CommandRenderer(ContentRenderer):
         "double_click": "⊛",
         "screenshot": "⚆",
         "cursor_position": "⊹",
-        "Open Interpreter": "●",
+        "Tia Interpreter": "●",
     }
 
     def __init__(self, style):

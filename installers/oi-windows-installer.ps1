@@ -1,4 +1,4 @@
-Write-Output "Starting Open Interpreter installation..."
+Write-Output "Starting Tia Interpreter installation..."
 Start-Sleep -Seconds 2
 Write-Output "This will take approximately 5 minutes..."
 Start-Sleep -Seconds 2
@@ -27,16 +27,16 @@ if (!(Get-Command rustc -ErrorAction SilentlyContinue)) {
 
 # Use the full path to pyenv to install Python
 & "$pyenvBin" init
-& "$pyenvBin" install 3.11.7 --skip-existing
+& "$pyenvBin" install 3.13 --skip-existing
 
-# Turn on this Python and install OI
-$env:PYENV_VERSION="3.11.7"
-& pip install open-interpreter
+# Turn on this Python and install TI
+$env:PYENV_VERSION="3.13"
+& pip install tia-interpreter
 
-# Get us out of this vers of Python (which was just used to setup OI, which should stay in that vers of Python...?)
+# Get us out of this vers of Python (which was just used to setup TI, which should stay in that vers of Python...?)
 Remove-Item Env:\PYENV_VERSION
 
 Write-Output ""
-Write-Output "Open Interpreter has been installed. Run the following command to use it: "
+Write-Output "Tia Interpreter has been installed. Run the following command to use it: "
 Write-Output ""
 Write-Output "interpreter"

@@ -187,6 +187,6 @@ if [[ "$install_shell_integration" =~ ^[Yy]$ ]]; then
         interpreter-shell
         info "Shell integration installed successfully! Restart your shell to activate it. Run interpreter-uninstall-shell to remove it."
     else
-        error "Could not find interpreter-shell command. Please ensure Open Interpreter was installed correctly."
+        error "Could not find interpreter-shell command. Please ensure Tia Interpreter was installed correctly."
     fi
 fi

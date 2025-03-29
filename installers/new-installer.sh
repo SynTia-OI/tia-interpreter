@@ -43,7 +43,7 @@ esac
 echo "export PATH=\"$VENV_DIR/bin:\$PATH\"" >> "$SHELL_CONFIG"
 
 echo "Testing..."
-echo "Say hello world!" | tia-interpreter --model gpt-4o-mini
+echo "Say hello world!" | tia-interpreter --model gpt-4o
 
 echo
 echo "Tia Interpreter installation complete!"

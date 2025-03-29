@@ -7,9 +7,7 @@ def help_message():
     BLUE_COLOR = "\033[94m"
     RESET_COLOR = "\033[0m"
 
-    content = f"""Open Interpreter 1.0.0
-Copyright (C) 2024 Open Interpreter Team
-Licensed under GNU AGPL v3.0
+    content = f"""Tia Interpreter 0.1.1
 
 A modern command-line assistant.
 
@@ -67,7 +65,7 @@ A modern command-line assistant.
     print("")
     # time.sleep(0.04)
     # print("\033[38;5;238mA.C., 2024. https://openinterpreter.com/\033[0m\n")
-    print("\033[38;5;238mhttps://docs.openinterpreter.com/\033[0m\n")
+    print("\033[38;5;238mhttps://docs.tiainterpreter.com/\033[0m\n")
     # time.sleep(0.05)
 
 

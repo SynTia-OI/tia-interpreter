@@ -1,5 +1,5 @@
 """
-Shell Integration Setup for Open Interpreter
+Shell Integration Setup for Tia Interpreter
 
 This script installs shell integration that:
 1. Maintains a transcript of terminal interactions (commands and their outputs)
@@ -51,10 +51,10 @@ function capture_output() {
     echo "user: $cmd" >> ~/.shell_history_with_output
     echo "computer:" >> ~/.shell_history_with_output
     
-    # Trim history file if it exceeds 20K characters
-    if [ $(wc -c < ~/.shell_history_with_output) -gt 20000 ]; then
-        # Keep only the last 15K characters to prevent frequent trimming
-        tail -c 15000 ~/.shell_history_with_output > ~/.shell_history_with_output.tmp
+    # Trim history file if it exceeds 50K characters
+    if [ $(wc -c < ~/.shell_history_with_output) -gt 50000 ]; then
+        # Keep only the last 35K characters to prevent frequent trimming
+        tail -c 35000 ~/.shell_history_with_output > ~/.shell_history_with_output.tmp
         mv ~/.shell_history_with_output.tmp ~/.shell_history_with_output
     fi
 }
@@ -116,7 +116,7 @@ def main():
     if not config_path or not shell_type:
         print("Could not determine your shell configuration.")
         print(
-            "Please visit docs.openinterpreter.com/shell for manual installation instructions."
+            "Please visit docs.tiainterpreter.com/shell for manual installation instructions."
         )
         return
 
@@ -136,13 +136,13 @@ def main():
     except FileNotFoundError:
         content = ""
 
-    start_marker = "### <openinterpreter> ###"
-    end_marker = "### </openinterpreter> ###"
+    start_marker = "### <tiainterpreter> ###"
+    end_marker = "### </tiainterpreter> ###"
 
     # Check if markers exist
     if start_marker in content:
         response = input(
-            "Open Interpreter shell integration appears to be already installed. Would you like to reinstall? (y/n): "
+            "Tia Interpreter shell integration appears to be already installed. Would you like to reinstall? (y/n): "
         )
         if response.lower() != "y":
             print("Installation cancelled.")
@@ -165,13 +165,13 @@ def main():
         with open(config_path, "w") as f:
             f.write(new_content)
         print(
-            f"Successfully installed Open Interpreter shell integration to {config_path}"
+            f"Successfully installed Tia Interpreter shell integration to {config_path}"
         )
         print("Please restart your shell or run 'source ~/.zshrc' to apply changes.")
     except Exception as e:
         print(f"Error writing to {config_path}: {e}")
         print(
-            "Please visit docs.openinterpreter.com for manual installation instructions."
+            "Please visit docs.tiainterpreter.com for manual installation instructions."
         )
 
 

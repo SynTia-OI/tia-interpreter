@@ -1,5 +1,4 @@
 version = 1
-revision = 1
 requires-python = ">=3.13, <4.0"
 
 [[package]]
@@ -67,7 +66,7 @@ wheels = [
 
 [[package]]
 name = "anthropic"
-version = "0.39.0"
+version = "0.49.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -78,9 +77,9 @@ dependencies = [
     { name = "sniffio" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/79/02/2ea51930009d7537c4648f51d1bb3202ec76704cbb39a2a863ab38bee3dd/anthropic-0.39.0.tar.gz", hash = "sha256:94671cc80765f9ce693f76d63a97ee9bef4c2d6063c044e983d21a2e262f63ba", size = 189339 }
+sdist = { url = "https://files.pythonhosted.org/packages/86/e3/a88c8494ce4d1a88252b9e053607e885f9b14d0a32273d47b727cbee4228/anthropic-0.49.0.tar.gz", hash = "sha256:c09e885b0f674b9119b4f296d8508907f6cff0009bc20d5cf6b35936c40b4398", size = 210016 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/94/61/2580eaa171cab20708d59d39cadd15f78a6c617759e8d0a12e18fe3302d1/anthropic-0.39.0-py3-none-any.whl", hash = "sha256:ea17093ae0ce0e1768b0c46501d6086b5bcd74ff39d68cd2d6396374e9de7c09", size = 198392 },
+    { url = "https://files.pythonhosted.org/packages/76/74/5d90ad14d55fbe3f9c474fdcb6e34b4bed99e3be8efac98734a5ddce88c1/anthropic-0.49.0-py3-none-any.whl", hash = "sha256:bbc17ad4e7094988d2fa86b87753ded8dce12498f4b85fe5810f208f454a8375", size = 243368 },
 ]
 
 [[package]]
@@ -1053,7 +1052,7 @@ wheels = [
 
 [[package]]
 name = "tia-interpreter"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "anthropic" },
@@ -1062,6 +1061,7 @@ dependencies = [
     { name = "google-genai" },
     { name = "httpx" },
     { name = "litellm" },
+    { name = "openai" },
     { name = "pillow" },
     { name = "prompt-toolkit" },
     { name = "pyautogui" },
@@ -1069,18 +1069,20 @@ dependencies = [
     { name = "pynput" },
     { name = "pyte" },
     { name = "readchar" },
+    { name = "requests" },
     { name = "screeninfo" },
     { name = "uvicorn" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "anthropic", specifier = ">=0.39.0,<0.40.0" },
+    { name = "anthropic", specifier = ">=0.39.0,<1.0.0" },
     { name = "colorama", specifier = ">=0.4.6,<0.5.0" },
     { name = "fastapi", specifier = ">=0.115.4,<0.116.0" },
     { name = "google-genai", specifier = ">=1.8.0,<2.0.0" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "litellm", specifier = ">=1.52.3,<2.0.0" },
+    { name = "openai", specifier = ">=1.50.0,<2.0.0" },
     { name = "pillow", specifier = ">=10.3.0" },
     { name = "prompt-toolkit", specifier = ">=3.0.48,<4.0.0" },
     { name = "pyautogui", specifier = ">=0.9.54,<0.10.0" },
@@ -1088,6 +1090,7 @@ requires-dist = [
     { name = "pynput", specifier = ">=1.7.7,<2.0.0" },
     { name = "pyte", specifier = ">=0.8.2,<0.9.0" },
     { name = "readchar", specifier = ">=4.2.1,<5.0.0" },
+    { name = "requests", specifier = ">=2.31.0,<3.28.0" },
     { name = "screeninfo", specifier = ">=0.8.1,<0.9.0" },
     { name = "uvicorn", specifier = ">=0.32.0,<0.33.0" },
 ]

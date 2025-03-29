@@ -1,5 +1,0 @@
-Python Version: 3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]
-Python Executable: C:\my_interpreter_ai_agent\tia-interpreter\.venv\Scripts\python.exe
-
-Testing imports:
-Error making request: UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 0: character maps to <undefined>

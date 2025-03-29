@@ -1,8 +1,7 @@
 # TIA Interpreter Windows Installer
-# Based on the Open Interpreter installer but customized for TIA
 
 # Configuration
-$RepoUrl = "https://github.com/OpenInterpreter/open-interpreter.git"
+REPO_URL="https://github.com/SynTia-OI/tia-interpreter.git"
 $Branch = "development"
 $PythonVersion = "3.13"
 $VenvDir = "$env:USERPROFILE\.tia-interpreter\venv"

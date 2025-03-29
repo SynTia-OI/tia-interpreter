@@ -5,11 +5,11 @@ from .collection import ToolCollection
 from .computer import ComputerTool
 from .edit import EditTool
 
-# Temporarily always use simple bash
-if True or os.environ.get("INTERPRETER_SIMPLE_BASH", "").lower() == "true":
+# Use environment variable to choose bash tool, default to the more featured one
+if os.environ.get("INTERPRETER_SIMPLE_BASH", "false").lower() == "true":
     from .simple_bash import BashTool
 else:
-    from .bash import BashTool
+    from .bash import BashTool # This is the one we modified
 
 __ALL__ = [
     BashTool,

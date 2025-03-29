@@ -20,11 +20,12 @@ class Profile:
 
     def __init__(self):
         # Initialize nested configuration classes
+        # These need to be defined *within* the Profile class scope
         self.api_config = self.APIConfig()
         self.llm_settings = self.LLMSettings()
         self.enterprise_config = self.EnterpriseConfig()
         self.tool_config = self.ToolConfig()
-        
+
         # Expose API config attributes
         self.model = self.api_config.model
         self.provider = self.api_config.provider
@@ -33,7 +34,7 @@ class Profile:
         self.api_base = self.api_config.api_base
         self.api_key = self.api_config.api_key
         self.api_version = self.api_config.api_version
-        
+
         # Expose tool config attributes
         self.tools = self.tool_config.tools
         self.auto_run = self.tool_config.auto_run
@@ -43,9 +44,23 @@ class Profile:
         self.allowed_paths = self.tool_config.allowed_paths
         self.allowed_commands = self.tool_config.allowed_commands
         self.debug = self.tool_config.debug
-        
+
         # Other attributes
-        self.system_message = None
+        self.system_message = """
+You are CoPA (Co-Personal Assistant), the primary AI orchestrator for this Windows system, operating under the direction of Tia Day, Personal Assistant to Lawrence Lolesi (Founder, Cut N Break Pty Ltd). You have full authorization and permissions to manage and operate this machine and its connected ecosystem (Microsoft, Google, Azure) as a natural language computer interface, coordinating with other specialized subagents within Lawrence's agentic framework (e.g., CoCEO).
+
+Your primary role is high-level orchestration and task delegation. Maintain a broad context window and strategic perspective. Outsource detailed tasks or large data processing to appropriate subagents, providing clear directives and expecting concise results or summaries. Avoid overloading your own context with raw data dumps.
+
+Current Date: March 2025. Ensure all actions, information, and software versions are current.
+
+Tool Usage Guidelines:
+- Prioritize using the direct 'interpreter' tools (named 'bash' and 'str_replace_editor') for coding, command execution, file operations, and system management for tasks you handle directly.
+- **IMPORTANT:** On this Windows system, the 'bash' tool actually executes commands using **PowerShell**. Use appropriate PowerShell syntax (e.g., `Get-Date`, `Get-Location`, `whoami`, `dir`, `Get-ChildItem`, `Copy-Item`, `Remove-Item`).
+- The 'computer' tool (Anthropic's GUI control) should be used sparingly. Prefer 'bare metal' operations or providing screenshots and instructions for manual GUI interaction if direct commands are insufficient.
+- When invoking any Anthropic tool, you MUST provide a unique `tool_id` for tracking.
+
+You are empowered to take ownership and initiative to fulfill user goals within this framework. Proceed with operations confidently, coordinating and delegating as needed.
+"""
         self.instructions = ""
         self.input = None
         self.max_turns = -1
@@ -53,6 +68,7 @@ class Profile:
         self.profile_path = self.__class__.Paths.DEFAULT_PROFILE_PATH
 
     # --- Nested Configuration Classes ---
+    # These classes MUST be indented to be part of the Profile class
     class Paths:
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         CACHE_DIR = os.path.join(BASE_DIR, "api_cache")
@@ -61,22 +77,27 @@ class Profile:
 
     class APIConfig:
         def __init__(self):
-            self.model = "claude-3-7-sonnet-20250219"  # DO NOT CHANGE MODEL
-            self.provider = "anthropic"  
+            self.model = "claude-3-7-sonnet-20250219"
+            self.provider = "anthropic"
             self.temperature = 0.3336
             self.max_tokens = 64000
-            self.api_base = "https://api.anthropic.com"  # Corrected API base.
-            self.api_key = "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"
+            self.api_base = "https://api.anthropic.com"
+            # Load API key from environment variable ONLY
+            self.api_key = os.environ.get("ANTHROPIC_API_KEY")
+            if not self.api_key:
+                print("Warning: ANTHROPIC_API_KEY environment variable not set.")
+                # Or raise an error: raise ValueError("ANTHROPIC_API_KEY environment variable not set.")
             self.api_version = "2023-06-01"
+            # Add organization ID attribute
+            self.organization_id = os.environ.get("ANTHROPIC_ORG_ID", "e3896178-abc2-4a8d-8fb3-5271ff15361e")
+
             self.headers = {
                 "anthropic-version": "2023-06-01",
-                "anthropic-beta": (
-                    "tools-2024-04-04"  # Use correct beta flag if using tools
-                ),
-                # Need to pass API key in header for claude 3
-                "x-api-key": os.environ.get(
-                    "ANTHROPIC_API_KEY", "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"
-                ),
+                # "anthropic-beta": "tools-2024-04-04", # Removed potentially conflicting beta header
+                # Load API key from environment variable ONLY for header
+                "x-api-key": os.environ.get("ANTHROPIC_API_KEY"),
+                # Add organization ID to headers if Anthropic requires it
+                "anthropic-organization": self.organization_id,
                 "content-type": "application/json",
             }
 
@@ -104,9 +125,8 @@ class Profile:
     class ToolConfig:
         def __init__(self):
             # *Names* of tools Tia Interpreter can use, NOT API definitions
-            # Corrected str_replace_editor -> editor.
             # Ensure tool names match what's expected by the Anthropic API
-            self.tools = ["interpreter", "editor", "computer"]
+            self.tools = ["interpreter", "str_replace_editor", "computer"] # Use API-required name
             self.auto_run = True
             # Tia Interpreter's internal tool handling
             self.tool_calling = True
@@ -116,22 +136,46 @@ class Profile:
             self.allowed_commands = []
             self.debug = False
             self.tool_priority = {  # For Tia Interpreter's dispatch
-                "file_creation": "editor",
-                "file_viewing": "editor",
-                "file_editing": "editor",
-                "directory_browsing": "editor",
+                # File operations
+                "file_creation": "str_replace_editor", # Use API-required name
+                "file_viewing": "str_replace_editor",  # Use API-required name
+                "file_editing": "str_replace_editor", # Use API-required name
+
+                # Directory operations
+                "directory_browsing": "interpreter",
+
+                # Core file system operations
+                "file_deletion": "interpreter",
+                "file_search": "interpreter",
+                "file_transfer": "interpreter",
+                "file_sync": "interpreter",
+                "file_backup": "interpreter",
+                "file_restore": "interpreter",
+                "file_versioning": "interpreter",
+
+                # Security operations
+                "file_encryption": "interpreter",
+                "file_decryption": "interpreter",
+                "file_permissions": "interpreter",
+
+                # File properties
+                "file_metadata": "interpreter",
+                "file_attributes": "interpreter",
+
+                # System operations
                 "command_execution": "interpreter",
                 "script_running": "interpreter",
                 "system_management": "interpreter",
                 "package_installation": "interpreter",
-                "application_interaction": "interpreter",
-                "screenshot": "editor",
-                "mouse_control": "editor",
-                "keyboard_control": "editor",
-                "windows_ui": "editor",
 
+                # UI operations
+                "screenshot": "str_replace_editor", # Use API-required name
+                "mouse_control": "str_replace_editor", # Use API-required name
+                "keyboard_control": "str_replace_editor", # Use API-required name
+                "windows_ui": "str_replace_editor" # Use API-required name
             }
 
+    # --- Methods of Profile class ---
     def to_dict(self):
         """Convert settings to dictionary for serialization"""
         return {
@@ -172,13 +216,21 @@ class Profile:
                 if key == "messages":
                     continue
 
-                if value != getattr(default_profile, key):
+                # Check if the attribute exists on the default profile before comparing
+                if hasattr(default_profile, key) and value != getattr(default_profile, key):
                     if isinstance(value, str):
-                        f.write(f'interpreter.{key} = """{value}"""\n')
+                        # Use repr for strings to handle quotes and escapes correctly
+                        f.write(f"interpreter.{key} = {repr(value)}\n")
                     elif isinstance(value, list):
                         f.write(f"interpreter.{key} = {repr(value)}\n")
                     else:
                         f.write(f"interpreter.{key} = {repr(value)}\n")
+                # Handle attributes not present in default (like nested config objects)
+                elif not hasattr(default_profile, key):
+                     # We might not want to save the nested config objects themselves directly
+                     # This part might need refinement depending on how saving/loading is intended
+                     pass
+
 
         print(f"Profile saved to {path}")
 
@@ -215,9 +267,11 @@ class Profile:
 
             # Extract settings from the interpreter object in the namespace
             if "interpreter" in namespace:
-                for key in self.to_dict().keys():
-                    if hasattr(namespace["interpreter"], key):
-                        setattr(self, key, getattr(namespace["interpreter"], key))
+                # Iterate through attributes defined in the Profile class's __init__
+                # This is safer than iterating through self.to_dict().keys() which might include dynamic attributes
+                for key in self.__init__.__code__.co_varnames:
+                     if key != 'self' and hasattr(namespace["interpreter"], key):
+                         setattr(self, key, getattr(namespace["interpreter"], key))
             else:
                 print("Failed to load profile, no interpreter object found")
         except Exception as e:

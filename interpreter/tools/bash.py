@@ -26,7 +26,8 @@ class _BashSession:
         if self._started:
             return
 
-        shell = "cmd.exe" if os.name == "nt" else "/bin/bash"
+        # Explicitly use PowerShell on Windows
+        shell = "powershell.exe -NoProfile -Command -" if os.name == "nt" else "/bin/bash"
         self._process = await asyncio.create_subprocess_shell(
             shell,
             stdin=asyncio.subprocess.PIPE,
@@ -113,7 +114,7 @@ class BashTool(BaseAnthropicTool):
 
     _session: _BashSession | None
     name: ClassVar[Literal["bash"]] = "bash"
-    api_type: ClassVar[Literal["bash_20241022"]] = "bash_20241022"
+    api_type: ClassVar[Literal["bash_20250124"]] = "bash_20250124" # Updated identifier
     interpreter: Any # Add interpreter reference
 
     def __init__(self, interpreter: Any): # Accept interpreter instance
@@ -136,14 +137,14 @@ class BashTool(BaseAnthropicTool):
             await self._session.start()
 
         if command is not None:
-            # Check if command is allowed
-            if command not in self.interpreter.allowed_commands:
-                return ToolResult(error=f"Command '{command}' is not in allowed_commands.")
+            # Check if command is allowed - REMOVED FOR UNRESTRICTED ACCESS
+            # if command not in self.interpreter.allowed_commands:
+            #     return ToolResult(error=f"Command '{command}' is not in allowed_commands.")
             return await self._session.run(command)
 
         raise ToolError("no command provided.")
 
-    def to_params(self) -> BetaToolBash20241022Param:
+    def to_params(self) -> BetaToolBash20241022Param: # Note: Type hint might need update if Anthropic SDK changes param name
         return {
             "type": self.api_type,
             "name": self.name,

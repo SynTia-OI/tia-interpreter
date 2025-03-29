@@ -9,7 +9,7 @@ if "--help" in sys.argv:
 
 # Version message
 if "--version" in sys.argv:
-    print("Tia Interpreter 0.1.0")
+    print("Tia Interpreter 0.1.1")
     sys.exit(0)
 
 import argparse

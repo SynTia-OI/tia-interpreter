@@ -23,8 +23,8 @@ class EditTool(BaseAnthropicTool):
     The tool parameters are defined by Anthropic and are not editable.
     """
 
-    api_type: Literal["text_editor_20241022"] = "text_editor_20241022"
-    name: Literal["str_replace_editor"] = "str_replace_editor"
+    api_type: Literal["text_editor_20250124"] = "text_editor_20250124" # Updated identifier
+    name: Literal["str_replace_editor"] = "str_replace_editor" # Reverted name to match Anthropic API requirement
 
     _file_history: dict[Path, list[str]]
     interpreter: Any # Add interpreter reference
@@ -34,7 +34,7 @@ class EditTool(BaseAnthropicTool):
         self._file_history = defaultdict(list)
         super().__init__()
 
-    def to_params(self) -> BetaToolTextEditor20241022Param:
+    def to_params(self) -> BetaToolTextEditor20241022Param: # Note: Type hint might need update if Anthropic SDK changes param name
         return {
             "name": self.name,
             "type": self.api_type,
@@ -86,18 +86,18 @@ class EditTool(BaseAnthropicTool):
         """
         Check that the path/command combination is valid and allowed.
         """
-        # Check if path is allowed by the profile
-        if str(path) not in self.interpreter.allowed_paths:
-             # Allow viewing directories even if not explicitly listed? For now, restrict all.
-             # if not (command == "view" and path.is_dir()):
-             raise ToolError(f"Path '{path}' is not in allowed_paths.")
+        # Check if path is allowed by the profile - REMOVED FOR UNRESTRICTED ACCESS
+        # if str(path) not in self.interpreter.allowed_paths:
+        #      # Allow viewing directories even if not explicitly listed? For now, restrict all.
+        #      # if not (command == "view" and path.is_dir()):
+             #      raise ToolError(f"Path '{path}' is not in allowed_paths.")
 
-        # Check if its an absolute path
-        if not path.is_absolute():
-            suggested_path = Path("") / path # This might not be useful if absolute paths are required
-            raise ToolError(
-                f"The path {path} is not an absolute path, it should start with `/`. Maybe you meant {suggested_path}?"
-            )
+        # Check if its an absolute path - REMOVED check entirely for unrestricted access
+        # if not path.is_absolute():
+        #      # Keep the error but remove the specific '/' suggestion
+        #      raise ToolError(
+        #          f"The path {path} is not an absolute path."
+        #      )
         # Check if path exists
         if not path.exists() and command != "create":
             raise ToolError(

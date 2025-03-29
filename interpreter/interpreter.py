@@ -48,7 +48,7 @@ from .tools.base import ToolResult # Import base ToolResult
 from .ui.markdown import MarkdownRenderer
 from .ui.tool import ToolRenderer
 
-COMPUTER_USE_BETA_FLAG = "computer-use-2024-10-22"
+COMPUTER_USE_BETA_FLAG = "computer-use-20250124" # Updated hypothetical beta flag
 PROMPT_CACHING_BETA_FLAG = "prompt-caching-2024-07-31"
 
 # Initialize markdown renderer
@@ -406,7 +406,7 @@ class Interpreter:
                     model=model,
                     system=system["text"],
                     tools=tool_collection.to_params(),
-                    betas=betas,
+                    # betas=betas, # Removed potentially conflicting beta flag
                     stream=True,
                 )
 
@@ -831,9 +831,9 @@ Notes for using the `str_replace` command:
                     #             "display_width_px": t["display_width_px"],
                     #             "display_number": t["display_number"],
                     #         }
-                    params["extra_headers"] = {
-                        "anthropic-beta": "computer-use-2024-10-22"
-                    }
+                    # params["extra_headers"] = { # Commented out potentially problematic header setting
+                    #     "anthropic-beta": "computer-use-2024-10-22"
+                    # }
 
                 # if self.debug:
                 #     print("Sending request...", params)

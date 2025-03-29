@@ -102,7 +102,7 @@ class ComputerTool(BaseAnthropicTool):
     """
 
     name: Literal["computer"] = "computer"
-    api_type: Literal["computer_20241022"] = "computer_20241022"
+    api_type: Literal["computer_20250124"] = "computer_20250124" # Updated identifier
     width: int
     height: int
     display_num: int | None
@@ -122,7 +122,7 @@ class ComputerTool(BaseAnthropicTool):
             "display_number": self.display_num,
         }
 
-    def to_params(self) -> BetaToolComputerUse20241022Param:
+    def to_params(self) -> BetaToolComputerUse20241022Param: # Note: Type hint might need update if Anthropic SDK changes param name
         return {"name": self.name, "type": self.api_type, **self.options}
 
     def __init__(self, interpreter: Any): # Accept interpreter instance
@@ -275,9 +275,9 @@ class ComputerTool(BaseAnthropicTool):
 
     async def shell(self, command: str, take_screenshot=True) -> ToolResult:
         """Run a shell command and return the output, error, and optionally a screenshot."""
-        # Check if command is allowed
-        if command not in self.interpreter.allowed_commands:
-            return ToolResult(error=f"Command '{command}' is not in allowed_commands.")
+        # Check if command is allowed - REMOVED FOR UNRESTRICTED ACCESS
+        # if command not in self.interpreter.allowed_commands:
+        #     return ToolResult(error=f"Command '{command}' is not in allowed_commands.")
 
         _, stdout, stderr = await run(command)
         base64_image = None

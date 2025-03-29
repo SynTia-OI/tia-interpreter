@@ -13,7 +13,7 @@ class BashTool(BaseAnthropicTool):
     """A tool that executes bash commands and returns their output."""
 
     name: ClassVar[Literal["bash"]] = "bash"
-    api_type: ClassVar[Literal["bash_20241022"]] = "bash_20241022"
+    api_type: ClassVar[Literal["bash_20250124"]] = "bash_20250124" # Updated identifier
     interpreter: Any # Add interpreter reference
 
     def __init__(self, interpreter: Any): # Accept interpreter instance
