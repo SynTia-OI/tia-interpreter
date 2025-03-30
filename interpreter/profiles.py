@@ -82,11 +82,8 @@ You are empowered to take ownership and initiative to fulfill user goals within 
             self.temperature = 0.3336
             self.max_tokens = 64000
             self.api_base = "https://api.anthropic.com"
-            # Load API key from environment variable ONLY
-            self.api_key = os.environ.get("ANTHROPIC_API_KEY") # Correctly load from env
-            if not self.api_key:
-                print("Warning: ANTHROPIC_API_KEY environment variable not set.")
-                # Or raise an error: raise ValueError("ANTHROPIC_API_KEY environment variable not set.")
+            # Hardcode API key again (with the new valid key)
+            self.api_key = "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"
             self.api_version = "2023-06-01"
             # Add organization ID attribute
             # Load organization ID from environment variable or use default
@@ -95,8 +92,8 @@ You are empowered to take ownership and initiative to fulfill user goals within 
             self.headers = {
                 "anthropic-version": "2023-06-01",
                 # "anthropic-beta": "tools-2024-04-04", # Removed potentially conflicting beta header
-                # Load API key from environment variable ONLY for header
-                "x-api-key": os.environ.get("ANTHROPIC_API_KEY"), # Correctly load from env
+                # Hardcode API key in header again (with the new valid key)
+                "x-api-key": "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",
                 # Add organization ID to headers if Anthropic requires it
                 "anthropic-organization": self.organization_id,
                 "content-type": "application/json",
